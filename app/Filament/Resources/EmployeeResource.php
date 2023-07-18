@@ -13,6 +13,7 @@ use Filament\Forms\Components\Select;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\DatePicker;
+use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\EmployeeResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -54,12 +55,14 @@ class EmployeeResource extends Resource
         return $table
         ->columns([
             TextColumn::make('id')->sortable(),
-            TextColumn::make('name')->sortable()->searchable(),
-            TextColumn::make('country.name')->sortable()->searchable(),
-            TextColumn::make('created_at')->dateTime()
+            TextColumn::make('first_name')->sortable()->searchable(),
+            TextColumn::make('last_name')->sortable()->searchable(),
+            TextColumn::make('department.name')->sortable()->searchable(),
+            TextColumn::make('date_hired')->date(),
+            TextColumn::make('address')->sortable()->searchable()
         ])
             ->filters([
-                //
+                SelectFilter::make('department')->relationship('department', 'name')
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
